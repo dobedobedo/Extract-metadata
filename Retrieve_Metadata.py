@@ -32,10 +32,12 @@ from tkinter import messagebox
 
 def RetrieveData(PathImage, *Tags):
     #Retrive all metadata using exiftool
-    command = ['exiftool', '-s', '{File}'.format(File=PathImage)]
+    Args = ['exiftool', '-s', '{File}'.format(File=PathImage)]
     for Tag in Tags:
-        command.insert(-1, '-{}'.format(Tag))
+        Args.insert(-1, '-{}'.format(Tag))
+    command = ' '.join(Args)
     MetadataLines = subprocess.run(command,
+                              shell=True, 
                               stdout=subprocess.PIPE,
                               universal_newlines=True).stdout.split('\n')
     ImageMetadata = {}
